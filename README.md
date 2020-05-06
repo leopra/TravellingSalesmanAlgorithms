@@ -7,11 +7,11 @@ TRAVELLING SALESMAN PROBLEM:
 - Algoritmo 2-approssimato: implementate l'algoritmo 2-approssimato basato sull'albero di copertura minimo.
 
 # Gestione dell'input e calcolo corretto delle distanze:
-    File in formato GEO: la coordinata x è la latitudine, la coordinata y la longitudine
-    convertire le coordinate x,y in radianti usando il codice specificato nelle TSPLIB FAQ (Q: I get wrong distances for problems of type GEO.). La formula considera la parte intera di x e y (NON ARROTONDA ALL'INTERO PIU' VICINO).
-    calcolare la distanza geografica tra i punti i e j usando il codice presente nelle FAQ per "dij". Anche in questo caso il codice considera la parte intera delle distanze.
+File in formato GEO: la coordinata x è la latitudine, la coordinata y la longitudine
+convertire le coordinate x,y in radianti usando il codice specificato nelle TSPLIB FAQ (Q: I get wrong distances for problems of type GEO.). La formula considera la parte intera di x e y (NON ARROTONDA ALL'INTERO PIU' VICINO).
+calcolare la distanza geografica tra i punti i e j usando il codice presente nelle FAQ per "dij". Anche in questo caso il codice considera la parte intera delle distanze.
 
-    File in formato EUC_2D: In questo caso non occorre fare conversioni di coordinate. Calcolare la distanza Eculidea e arrotondate il valore all'intero più vicino.
+File in formato EUC_2D: In questo caso non occorre fare conversioni di coordinate. Calcolare la distanza Eculidea e arrotondate il valore all'intero più vicino.
 
 # Cosa consegnare
 Una breve relazione sullo svolgimento del progetto. La relazione deve contenere:
