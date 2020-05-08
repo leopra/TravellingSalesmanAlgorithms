@@ -1,36 +1,5 @@
-import os 
 import math
 import numpy as np 
-
-filename = os.listdir('tsp_dataset')
-matrix=[[]]
-
-#gets filename and return array with info and array with coordinates
-def parseFile(filename):
-    with open('./tsp_dataset/' + filename, 'r') as f:
-        lines = f.readlines()
-        info = {}
-        coords = []
-
-        for line in lines:
-            #close input
-            if line == 'EOF\n':
-                break
-            #read info on file
-            elif line[0].isupper():
-                if line != 'NODE_COORD_SECTION\n':
-                    n, i = line.rstrip().split(': ')
-                    info[n]=i
-
-            #load coords
-            else:
-                x,y,z = line.split(' ')
-                coords.append((int(x), float(y), float(z)))
-
-    return info, coords
-            
-    
-a,b = parseFile(filename[0])
 
 #convert single decimal number to radiants
 def degToRad(x):
@@ -60,18 +29,10 @@ def calcDistGeo(pointa, pointb):
 
     return dij
 
-
-#TESTING
-k1 = convertPointToRad(b[0])
-k2 = convertPointToRad(b[1])
-print(b[0],b[1])
-print(k1, k2)
-print(calcDistGeo(k1,k2))
-
-#CREATE MATRIX OF DISTANCES
+#CREATE MATRIX OF DISTANCES GEO
 #input array of coordinates 
 #output matrix N x N where N is the length of coords array
-def createDMatrix(coords):
+def createDMatrixGeo(coords):
     matrix = []
     for pointa in coords:
         pointa = convertPointToRad(pointa)
@@ -84,6 +45,46 @@ def createDMatrix(coords):
 
     return np.asmatrix(matrix)
 
-#testing
-j = createDMatrix(b)
-print(j)
+#CREATE MATRIX OF DISTANCES EUCL
+#input array of coordinates 
+#output matrix N x N where N is the length of coords array
+def createDMatrixEucl(coords):
+    matrix = []
+    for pointa in coords:
+        row = []
+        for pointb in coords:
+            row.append(math.sqrt((pointa[1]-pointb[1]))**2 + (pointa[2]-pointb[2])**2)
+        matrix.append(row)
+
+    return np.asmatrix(matrix)
+
+#gets filename and return MATRIX OF DISTANCES check if geo of euclid
+def parseFile(filename):
+    with open('./tsp_dataset/' + filename, 'r') as f:
+        lines = f.readlines()
+        info = {}
+        coords = []
+
+        for line in lines:
+            #close input
+            line = line.strip()
+            if line == 'EOF':
+                break
+            #read info on file
+            elif line[0].isupper():
+                if line != 'NODE_COORD_SECTION':
+                    n, i = line.split(':')
+                    info[n.strip()] = i.strip()
+
+            #load coords
+            else:
+                #print('b', line)
+                x,y,z = line.split(' ')
+                coords.append((int(x), float(y), float(z)))
+
+    print(info)
+    if info['EDGE_WEIGHT_TYPE'] == 'GEO':
+        return createDMatrixGeo(coords)
+    elif info['EDGE_WEIGHT_TYPE'] == 'EUC_2D':
+        return createDMatrixGeo(coords)
+         
