@@ -53,7 +53,7 @@ def createDMatrixEucl(coords):
     for pointa in coords:
         row = []
         for pointb in coords:
-            row.append(math.sqrt((pointa[1]-pointb[1]))**2 + (pointa[2]-pointb[2])**2)
+            row.append(math.sqrt((pointa[1]-pointb[1])**2 + (pointa[2]-pointb[2])**2))
         matrix.append(row)
 
     return np.asmatrix(matrix)
@@ -86,5 +86,5 @@ def parseFile(filename):
     if info['EDGE_WEIGHT_TYPE'] == 'GEO':
         return createDMatrixGeo(coords)
     elif info['EDGE_WEIGHT_TYPE'] == 'EUC_2D':
-        return createDMatrixGeo(coords)
+        return createDMatrixEucl(coords)
          
