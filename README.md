@@ -20,3 +20,10 @@ tabella esplicativa dei risultati e le risposte alle due domande;
 eventuali originalità introdotte nell'elaborato o nell'implementazione;
 una sezione conclusiva in cui porre i vostri commenti e le vostre conclusioni sull’elaborato svolto e i risultati ottenuti.
 Il codice sorgente dell’implementazione in un unico file di archivio (.zip, .tar.gz, ecc.).
+
+Soluzioni:
+http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/STSP.html
+QeA:
+http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/TSPFAQ.html
+
+# Non calcolare pigreco per ordini superiori a 22 nodi
