@@ -1,5 +1,6 @@
 import os 
 import math
+import numpy as np 
 
 filename = os.listdir('tsp_dataset')
 matrix=[[]]
@@ -81,7 +82,8 @@ def createDMatrix(coords):
 
         matrix.append(row)
 
-    return matrix
+    return np.asmatrix(matrix)
 
 #testing
-print(len(createDMatrix(b)), len(createDMatrix(b)[0]))
+j = createDMatrix(b)
+print(j)
