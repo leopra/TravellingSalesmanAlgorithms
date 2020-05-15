@@ -48,7 +48,6 @@ def calcHeldKarp(dmatrix):
                         try:
                             results.append((C[(m, prevsub)][0] + dmatrix[m,k], m))
                         except:
-                            printenc(C)
                             raise Exception('error accessing key', (m,prevsub), ' in C')
 
                 C[(k, enc)] = min(results)    
@@ -57,7 +56,7 @@ def calcHeldKarp(dmatrix):
     #now we search for the encoding containing all cities (0b11111...0) except the first
     final = 2**dim-2
     fresults = []
-    print('C: ', C)
+    #print('C: ', C)
 
     for k in range(1,dim):
         #for each node of final combination (all nodes except 0) check distance to 0
@@ -72,7 +71,9 @@ def calcHeldKarp(dmatrix):
         _, parent = C[(parent, final)]
         final = new_bits
 
-    print('il path: ', list(reversed(path)))
+    path.append(0)
+
+    print('il path: ', list(map(lambda x: x+1,reversed(path))))
     # Add implicit start state
     path.append(0)
 
@@ -84,7 +85,7 @@ sys.setrecursionlimit(1000)
 #recursive version of the Held Karp algorithm
 #receives a matrix of distances and returns the min circular path traversing al nodes once
 def calcHeldKarpRecursiveVersion(dmatrix):
-    dim = len(dmatrix)-1 
+    dim = len(dmatrix)
     dist = {}
     py = {}   
     
@@ -111,6 +112,7 @@ def calcHeldKarpRecursiveVersion(dmatrix):
 
                 if distance + dmatrix[u,v] < mindist:
                     mindist = distance + dmatrix[u,v]
+                    #print(v, encToList(S))
                     minprec = u
             
             dist[v,S] = mindist
@@ -122,39 +124,22 @@ def calcHeldKarpRecursiveVersion(dmatrix):
         percorso = []
         k=0
         S=2**dim-1
-        percorso.append(0)
         while len(percorso) < len(dmatrix)-1:
             temp = py[(k,S)]
             percorso.append(temp)
             S = S & ~ (1 << k)
             k = temp
-
-        distance =0
-        # for i in range(0,len(percorso)-2):
-        #     distance += dmatrix[percorso[i+1],percorso[i]]
-        # print('DISTANZIONA: ', distance) 
+        
+        percorso.append(0)
+        
         return percorso
 
 
     risultato = HK_Visit(0, 2**dim-1) #(1,V)
     #indexes were used 1 off so 1 add one to all so they represent the real nodes name
-    print('il path: ', list(map(lambda x: x+1, build_path())))
+    print('il path: ', list(reversed(list(map(lambda x: x+1, build_path())))))
     return risultato
 
-
-#debugging function to see what sets are being considered
-def printenc(C):
-        for key,value in C.items():
-            t = bin(key[1])
-            sett = []
-            num=0
-            for i in t[::-1]:
-                if i == 'b':
-                    break
-                num += 1
-                if i == '1':
-                    sett.append(str(num))
-            print (key[0] , sett, ': ', value)
 
 #convert the binary encoding in the corresponding list
 def encToList(binary):
@@ -169,10 +154,54 @@ def encToList(binary):
 
 #print(a)
 s = time.time()
-print('Iterative: ', calcHeldKarp(a))
+pathlen = calcHeldKarp(a)
+print('Iterative: ', pathlen)
 e = time.time()
 print(e-s)
 s = time.time()
 print('Recursive: ', calcHeldKarpRecursiveVersion(a)) 
 e = time.time()
 print(e-s)
+
+#################################################################################################################
+# Part for Graph Plotting
+#################################################################################################################
+import matplotlib.pyplot as plt
+
+def parseFile(filename):
+    with open('./tsp_dataset/' + filename, 'r') as f:
+        lines = f.readlines()
+        info = {}
+        coords = []
+
+        for line in lines:
+            #close input
+            line = line.strip()
+            if line == 'EOF':
+                break
+            #read info on file
+            elif line[0].isupper():
+                if line != 'NODE_COORD_SECTION':
+                    n, i = line.split(':')
+                    info[n.strip()] = i.strip()
+
+            #load coords
+            else:
+                #print('b', line)
+                x,y,z = line.split(' ')
+                coords.append((int(x), float(y), float(z)))
+
+    return coords
+
+# plotting = parseFile(filename[int(sys.argv[1])])
+# plt.scatter([x for n,x,y in plotting], [y for n,x,y in plotting])
+# for i in range(len(plotting)):
+#     n,x,y = plotting[i]
+#     plt.plot(x, y, 'bo')
+#     plt.text(x * (1 + 0.01), y * (1 + 0.01) , n, fontsize=12)
+
+
+# for k in range(len(path)-1):
+#     t1 = [path[k], path[k+1]]
+#     t2 = [path[k], path[k+1]]
+# plt.show()
