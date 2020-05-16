@@ -20,7 +20,7 @@ def Preorder(tree, i, H):
 def printH(H):
     string= ""
     for i in range(0, len(H)):
-        string+= str(H[i]) + ' '
+        string+= str(H[i]+1) + ' '
     print(string)
 
 
@@ -39,27 +39,23 @@ def approx(file_name, root):
 
     #printChild(mst)  #print figli di ogni nodo, per visita preorder
 
-    print('Cycle')
-
     H=[]
-
     Preorder(mst, root, H)
-
-    printH(H)
 
     total=0
     #calcolo costo totale
     for i in range(0, n-1):
-        #print('i ', H[i], 'i+1 ', H[i+1])
-        #print(i)
         total+= matrix[H[i], H[i+1]]
     #aggiunta ultimo arco
-    #print('i ', H[n-1], 'j ', H[0])
     total+= matrix[H[n-1], H[0]]
-    print(total)
-    print('--------------------------------')
 
+    return H, total
 
-approx('burma14.tsp', 0)
+###########################################################
 
-#approx('ulysses22.tsp', 0)
+#algoritmo 2 approssimazione, restituisce il ciclo
+
+ciclo, totale= approx('ulysses16.tsp', 0)
+print('Cycle')
+printH(ciclo)
+print(totale)
