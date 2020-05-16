@@ -6,10 +6,10 @@ import time
 
 
 
-filename = sorted(os.listdir('tsp_dataset'))
-if (len(sys.argv)==2):
-    a = ut.parseFile(filename[int(sys.argv[1])])
-    #print(a)
+# filename = sorted(os.listdir('tsp_dataset'))
+# if (len(sys.argv)==2):
+#     a = ut.parseFile(filename[int(sys.argv[1])])
+#     #print(a)
 
 ##########
 #HELD&KARP
@@ -73,11 +73,12 @@ def calcHeldKarp(dmatrix):
 
     path.append(0)
 
-    print('il path: ', list(map(lambda x: x+1,reversed(path))))
+    printpath = list(map(lambda x: x+1,reversed(path)))
+    #print('il path: ', printpath)
     # Add implicit start state
     path.append(0)
 
-    return opt
+    return printpath, opt
 
 #bigger recursion limit to avoid error
 sys.setrecursionlimit(1000)
@@ -137,8 +138,8 @@ def calcHeldKarpRecursiveVersion(dmatrix):
 
     risultato = HK_Visit(0, 2**dim-1) #(1,V)
     #indexes were used 1 off so 1 add one to all so they represent the real nodes name
-    print('il path: ', list(reversed(list(map(lambda x: x+1, build_path())))))
-    return risultato
+    #print('il path: ', list(reversed(list(map(lambda x: x+1, build_path())))))
+    return list(reversed(list(map(lambda x: x+1, build_path())))), risultato
 
 
 #convert the binary encoding in the corresponding list
@@ -153,55 +154,12 @@ def encToList(binary):
     return sett
 
 #print(a)
-s = time.time()
-pathlen = calcHeldKarp(a)
-print('Iterative: ', pathlen)
-e = time.time()
-print(e-s)
-s = time.time()
-print('Recursive: ', calcHeldKarpRecursiveVersion(a)) 
-e = time.time()
-print(e-s)
-
-#################################################################################################################
-# Part for Graph Plotting
-#################################################################################################################
-import matplotlib.pyplot as plt
-
-def parseFile(filename):
-    with open('./tsp_dataset/' + filename, 'r') as f:
-        lines = f.readlines()
-        info = {}
-        coords = []
-
-        for line in lines:
-            #close input
-            line = line.strip()
-            if line == 'EOF':
-                break
-            #read info on file
-            elif line[0].isupper():
-                if line != 'NODE_COORD_SECTION':
-                    n, i = line.split(':')
-                    info[n.strip()] = i.strip()
-
-            #load coords
-            else:
-                #print('b', line)
-                x,y,z = line.split(' ')
-                coords.append((int(x), float(y), float(z)))
-
-    return coords
-
-# plotting = parseFile(filename[int(sys.argv[1])])
-# plt.scatter([x for n,x,y in plotting], [y for n,x,y in plotting])
-# for i in range(len(plotting)):
-#     n,x,y = plotting[i]
-#     plt.plot(x, y, 'bo')
-#     plt.text(x * (1 + 0.01), y * (1 + 0.01) , n, fontsize=12)
-
-
-# for k in range(len(path)-1):
-#     t1 = [path[k], path[k+1]]
-#     t2 = [path[k], path[k+1]]
-# plt.show()
+# s = time.time()
+# pathlen = calcHeldKarp(a)
+# print('Iterative: ', pathlen)
+# e = time.time()
+# print(e-s)
+# s = time.time()
+# print('Recursive: ', calcHeldKarpRecursiveVersion(a)) 
+# e = time.time()
+# print(e-s)

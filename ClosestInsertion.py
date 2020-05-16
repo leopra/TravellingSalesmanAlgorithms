@@ -6,15 +6,15 @@ import time
 
 
 
-filename = sorted(os.listdir('tsp_dataset'))
-if (len(sys.argv)==2):
-    a = ut.parseFile(filename[int(sys.argv[1])])
-    #print(a)
+# filename = sorted(os.listdir('tsp_dataset'))
+# if (len(sys.argv)==2):
+#     a = ut.parseFile(filename[int(sys.argv[1])])
+#     #print(a)
 
 #solve the mst by adding to the partial path the node that is the nearest to the partial path
 def closestInsertion(dmatrix):
     #init
-    dim = len(a)
+    dim = len(dmatrix)
     partial = []
     remaining = list(range(dim))
     partial.append(0)
@@ -52,7 +52,7 @@ def closestInsertion(dmatrix):
 
         partial.insert(nearest, toadd)
 
-    print(partial)      
+    #print(partial)      
 
     #compute total path length
     distanceFinal =0
@@ -61,6 +61,6 @@ def closestInsertion(dmatrix):
     #add the distance of the last elemento to the first element to complete the circle
     distanceFinal += dmatrix[0, partial[-1]]
 
-    return distanceFinal
+    return partial, distanceFinal
 
-print('closest insertion: ', closestInsertion(a) )
+#print('closest insertion: ', closestInsertion(a) )

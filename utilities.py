@@ -79,7 +79,7 @@ def parseFile(filename):
             #load coords
             else:
                 #print('b', line)
-                x,y,z = line.split(' ')
+                x,y,z = line.split()
                 coords.append((int(x), float(y), float(z)))
 
     print(info)
