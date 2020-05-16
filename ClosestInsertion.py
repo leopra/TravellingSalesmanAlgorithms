@@ -20,11 +20,13 @@ def closestInsertion(dmatrix):
     partial.append(0)
     remaining.remove(0)
 
+    #stop the cicle when there are no more nodes to be added
     while remaining:
 
         toadd = -1
         mindist = 2147483647
 
+        #get the node nearest to the partial graph
         for j in remaining:
             mindist2 = 2147483647
             for k in partial:
@@ -40,7 +42,7 @@ def closestInsertion(dmatrix):
         nearest = 0
         valnearest = 21474836474
         
-        #add the node in the correct position
+        #find the correct position in which insert the node 
         if len(partial) == 1:
                 nearest=1
         else:
@@ -50,6 +52,7 @@ def closestInsertion(dmatrix):
                     valnearest = t
                     nearest = idx + 1
 
+        #now i know what node i have to add and where
         partial.insert(nearest, toadd)
 
     #print(partial)      
