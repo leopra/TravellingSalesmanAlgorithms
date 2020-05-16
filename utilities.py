@@ -88,3 +88,28 @@ def parseFile(filename):
     elif info['EDGE_WEIGHT_TYPE'] == 'EUC_2D':
         return createDMatrixEucl(coords)
          
+#get the list of nodes
+def parseFileCoords(filename):
+    with open('./tsp_dataset/' + filename, 'r') as f:
+        lines = f.readlines()
+        info = {}
+        coords = []
+
+        for line in lines:
+            #close input
+            line = line.strip()
+            if line == 'EOF':
+                break
+            #read info on file
+            elif line[0].isupper():
+                if line != 'NODE_COORD_SECTION':
+                    n, i = line.split(':')
+                    info[n.strip()] = i.strip()
+
+            #load coords
+            else:
+                #print('b', line)
+                x,y,z = line.split()
+                coords.append((int(x), float(y), float(z)))
+
+    return coords

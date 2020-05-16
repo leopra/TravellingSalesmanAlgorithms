@@ -3,13 +3,13 @@ import os
 import sys
 import itertools as itol
 import time
+import matplotlib.pyplot as plt
+import networkx as nx
 
-
-
-# filename = sorted(os.listdir('tsp_dataset'))
-# if (len(sys.argv)==2):
-#     a = ut.parseFile(filename[int(sys.argv[1])])
-#     #print(a)
+filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
+if (len(sys.argv)==2):
+    a = ut.parseFile(filename)
+    #print(a)
 
 #solve the mst by adding to the partial path the node that is the nearest to the partial path
 def closestInsertion(dmatrix):
@@ -19,6 +19,7 @@ def closestInsertion(dmatrix):
     remaining = list(range(dim))
     partial.append(0)
     remaining.remove(0)
+
 
     #stop the cicle when there are no more nodes to be added
     while remaining:
@@ -50,11 +51,25 @@ def closestInsertion(dmatrix):
                 t = dmatrix[toadd,idx] + dmatrix[toadd,idx+1] - dmatrix[idx,idx+1]
                 if  t < valnearest:
                     valnearest = t
-                    nearest = idx + 1
-
+                    nearest = idx
+            #check distance 0 and last element        
+            if dmatrix[toadd,len(partial)-1] + dmatrix[toadd,0] - dmatrix[0,len(partial)-1] < valnearest:
+                    nearest = len(partial)
         #now i know what node i have to add and where
         partial.insert(nearest, toadd)
 
+        #TODO debug
+        # G = nx.Graph()
+        # plt.figure(3, figsize=(10,10))
+        # if len(partial) > 1:
+        #     for i, x, y in ut.parseFileCoords(filename):
+        #         G.add_node(i, pos=(x,y))
+        #     for i in range(len(partial)-1):
+        #         G.add_edge(partial[i]+1, partial[i+1]+1)
+        #     G.add_edge(partial[0]+1, partial[-1]+1)
+        # pos=nx.get_node_attributes(G,'pos')
+        # nx.draw(G, pos, node_size=15, with_labels=True)
+        # plt.show()
     #print(partial)      
 
     #compute total path length
@@ -64,6 +79,6 @@ def closestInsertion(dmatrix):
     #add the distance of the last elemento to the first element to complete the circle
     distanceFinal += dmatrix[0, partial[-1]]
 
-    return partial, distanceFinal
+    return list(map(lambda x:x+1,partial)), distanceFinal
 
-#print('closest insertion: ', closestInsertion(a) )
+print('closest insertion: ', closestInsertion(a) )

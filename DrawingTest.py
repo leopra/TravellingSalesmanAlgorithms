@@ -12,39 +12,12 @@ assert len(sys.argv) == 2
 filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
 a = ut.parseFile(filename)
 
-#get the list of nodes
-def parseFileCoords(filename):
-    with open('./tsp_dataset/' + filename, 'r') as f:
-        lines = f.readlines()
-        info = {}
-        coords = []
-
-        for line in lines:
-            #close input
-            line = line.strip()
-            if line == 'EOF':
-                break
-            #read info on file
-            elif line[0].isupper():
-                if line != 'NODE_COORD_SECTION':
-                    n, i = line.split(':')
-                    info[n.strip()] = i.strip()
-
-            #load coords
-            else:
-                #print('b', line)
-                x,y,z = line.split()
-                coords.append((int(x), float(y), float(z)))
-
-    return coords
-
-
-example = parseFileCoords(filename)
+example = ut.parseFileCoords(filename)
 
 ######################################
 # DRAW HELD KARP
+plt.figure(1)
 G = nx.Graph()
-print(example)
 for i, x, y in example:
     G.add_node(i, pos=(x,y))
 
@@ -56,15 +29,13 @@ for i in range(len(path)-1):
 G.add_edge(path[0], path[-1])
 
 pos=nx.get_node_attributes(G,'pos')
-nx.draw(G, pos)
-plt.show()
+nx.draw(G, pos, node_size=20, with_labels=True)
 
 #######################################
 # DRAW CLOSEST INSERTION
 G = nx.Graph()
-
+plt.figure(2)
 for i, x, y in example:
-    print(i, x, y)
     G.add_node(i, pos=(x,y))
 
 path, length = ClIn.closestInsertion(a)
@@ -75,5 +46,5 @@ for i in range(len(path)-1):
 G.add_edge(path[0], path[-1])
 
 pos=nx.get_node_attributes(G,'pos')
-nx.draw(G, pos)
+nx.draw(G, pos, node_size=20, with_labels=True)
 plt.show()
