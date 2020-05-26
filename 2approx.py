@@ -1,5 +1,6 @@
 import utilities as ut
 import Prim as pr
+import time
 
 
 def printChild(mst):
@@ -54,8 +55,20 @@ def approx(file_name, root):
 ###########################################################
 
 #algoritmo 2 approssimazione, restituisce il ciclo
+#ciclo, totale= approx('ulysses16.tsp', 0)
+#print('Cycle')
+#printH(ciclo)
+#print(totale)
 
-ciclo, totale= approx('ulysses16.tsp', 0)
-print('Cycle')
-printH(ciclo)
-print(totale)
+########### test su tutti i grafi ################
+string=""
+f = open('2approx.txt','w')
+files=['burma14.tsp', 'ulysses16.tsp', 'ulysses22.tsp', 'eil51.tsp', 'berlin52.tsp','kroD100.tsp', 'kroA100.tsp', 'ch150.tsp',
+'gr202.tsp', 'gr229.tsp', 'pcb442.tsp', 'd493.tsp', 'dsj1000.tsp']
+for i in range(0, len(files)):
+    start_time = time.time()
+    ciclo, totale= approx(files[i], 0)
+    string+= files[i] + '  ' + str(totale) + '  ' + str(time.time() - start_time) + '\n'
+    print("time : %s seconds " % (time.time() - start_time))
+f.write(string)
+f.close()
