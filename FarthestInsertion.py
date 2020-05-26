@@ -10,8 +10,8 @@ MAX= 9223372036854775807
 def distanza(k, C, matrix): #k nodo, C un insieme e matrice come matrice di adiacenza
     minimo=MAX
     for i in range(0, len(C)):
-        if minimo> matrix[k, int(C[i])]:
-            minimo= matrix[k, int(C[i])]
+        if minimo> matrix[k, C[i]]:
+            minimo= matrix[k, C[i]]
     return minimo
 
 def selezione(V,C,matrix):
@@ -19,17 +19,16 @@ def selezione(V,C,matrix):
     massimo=-1
     k=-1 #nodo selezionato 
     for i in range(0, len(V)):
-        dist=distanza(int(V[i]), C, matrix)
+        dist=distanza(V[i], C, matrix)
         if dist>massimo:
             massimo= dist
-            k=int(V[i])
+            k=V[i]
     return k
 
 def printCycle(C):
     string=""
     for i in range(0, len(C)):
-        val= int(C[i]) + 1
-        string+= str(val) + " "
+        string+= str(C[i]+1) + " "
     print(string)
 
 def farthest(file_name):
@@ -45,7 +44,7 @@ def farthest(file_name):
     Tot=0 #peso totale del ciclo risultante
     V=[] #insieme di tutti i nodi iniziali che vengono estratti man mano
     for i in range(0, n):
-        V.append(str(i))
+        V.append(i)
     #print(V)
 
     ############# INIZIALIZZAZIONE ##################
@@ -57,11 +56,11 @@ def farthest(file_name):
             j=i
     
     #inserisco i primi due nodi nel circuito parziale
-    C.append(str(0))
-    C.append(str(j))
+    C.append(0)
+    C.append(j)
     #elimino i due nodi inseriti dall'insieme di tutti i vertici
-    V.remove(str(0))
-    V.remove(str(j))
+    V.remove(0)
+    V.remove(j)
 
     k=selezione(V,C,matrix)
     while k!=-1: #se ritorna -1 non ho più elementi da selezionare
@@ -71,18 +70,19 @@ def farthest(file_name):
         pos=-1 #dove inserire il nodo k dopo aver trovato la soluzione
         for i in range(0, len(C)): #controllo le coppie di archi all'interno di C
                 if i+1< len(C):
-                    val=matrix[int(C[i]),k] + matrix[k,int(C[i+1])] - matrix[int(C[i]), int(C[i+1])]
+                    val=matrix[C[i],k] + matrix[k,C[i+1]] - matrix[C[i], C[i+1]]
                     j=i+1
                 else:
-                    val=matrix[int(C[i]),k] + matrix[k,int(C[0])] - matrix[int(C[i]), int(C[0])]
+                    val=matrix[C[i],k] + matrix[k,C[0]] - matrix[C[i], C[0]]
                     j=0
                 if val<minimo: 
                     minimo=val
                     pos=j
 
         #inserisco K tra i e j nella soluzione finale, elimino K da V e lo aggiungo a C
-        V.remove(str(k))
-        C.insert(pos, str(k))
+        V.remove(k)
+        C.insert(pos, k)
+
 
         #TODO debug
         G = nx.Graph()
@@ -91,25 +91,25 @@ def farthest(file_name):
             for i, x, y in ut.parseFileCoords(file_name):
                 G.add_node(i, pos=(x,y))
             for i in range(len(C)-1):
-                G.add_edge(int(C[i])+1, int(C[i+1])+1)
-            G.add_edge(int(C[0])+1, int(C[-1])+1)
+                G.add_edge(C[i]+1, C[i+1]+1)
+            G.add_edge(C[0]+1, C[-1]+1)
         pos=nx.get_node_attributes(G,'pos')
         nx.draw(G, pos, node_size=15, with_labels=True)
         plt.show()
         k=selezione(V,C,matrix)
 
-    #calcolo peso del ciclo costruito 
+    ##calcolo peso del ciclo costruito 
     for i in range(0, len(C)):
         if i+1< len(C):
-            Tot+= matrix[int(C[i]), int(C[i+1])]
+            Tot+= matrix[C[i],C[i+1]]
         else:
-            Tot+= matrix[int(C[i]), int(C[0])]
+            Tot+= matrix[C[i], C[0]]
     
     printCycle(C)
     print('Totale: ', Tot)
 
 
-farthest('ulysses16.tsp')
+farthest('burma14.tsp')
     
         
 
