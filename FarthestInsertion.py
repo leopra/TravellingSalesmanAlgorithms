@@ -1,6 +1,4 @@
-
 import utilities as ut
-from random import sample
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -31,6 +29,16 @@ def printCycle(C):
         string+= str(C[i]+1) + " "
     print(string)
 
+def calcTot(C, matrix):
+    ##calcolo peso del ciclo costruito 
+    Tot=0
+    for i in range(0, len(C)):
+        if i+1< len(C):
+            Tot+= matrix[C[i],C[i+1]]
+        else:
+            Tot+= matrix[C[i], C[0]]
+    return Tot
+
 def farthest(file_name):
 
     ############# LETTURA FILE ###############
@@ -41,7 +49,6 @@ def farthest(file_name):
 
     ############ VARIABILI DA UTILIZZARE ############
     C=[] #insieme di archi risultanti
-    Tot=0 #peso totale del ciclo risultante
     V=[] #insieme di tutti i nodi iniziali che vengono estratti man mano
     for i in range(0, n):
         V.append(i)
@@ -85,28 +92,26 @@ def farthest(file_name):
 
 
         #TODO debug
-        G = nx.Graph()
-        plt.figure(3, figsize=(10,10))
-        if len(C) > 1:
-            for i, x, y in ut.parseFileCoords(file_name):
-                G.add_node(i, pos=(x,y))
-            for i in range(len(C)-1):
-                G.add_edge(C[i]+1, C[i+1]+1)
-            G.add_edge(C[0]+1, C[-1]+1)
-        pos=nx.get_node_attributes(G,'pos')
-        nx.draw(G, pos, node_size=15, with_labels=True)
-        plt.show()
+        #G = nx.Graph()
+        #plt.figure(3, figsize=(10,10))
+        #if len(C) > 1:
+        #    for i, x, y in ut.parseFileCoords(file_name):
+        #        G.add_node(i, pos=(x,y))
+        #    for i in range(len(C)-1):
+        #        G.add_edge(C[i]+1, C[i+1]+1)
+        #    G.add_edge(C[0]+1, C[-1]+1)
+        #pos=nx.get_node_attributes(G,'pos')
+        #nx.draw(G, pos, node_size=15, with_labels=True)
+        #plt.show()
+
         k=selezione(V,C,matrix)
 
-    ##calcolo peso del ciclo costruito 
-    for i in range(0, len(C)):
-        if i+1< len(C):
-            Tot+= matrix[C[i],C[i+1]]
-        else:
-            Tot+= matrix[C[i], C[0]]
     
     printCycle(C)
-    print('Totale: ', Tot)
+    totale=calcTot(C, matrix)
+    print(totale)
+
+    return C, totale
 
 
 farthest('burma14.tsp')
