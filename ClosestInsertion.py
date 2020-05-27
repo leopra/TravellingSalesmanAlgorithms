@@ -39,37 +39,53 @@ def closestInsertion(dmatrix):
                 mindist = mindist2
 
         remaining.remove(toadd)
-
-        nearest = 0
+        k = toadd
+        pos = -1
         valnearest = 21474836474
         
         #find the correct position in which insert the node 
         if len(partial) == 1:
                 nearest=1
         else:
-            for idx in range(len(partial)-1):
-                t = dmatrix[toadd,idx] + dmatrix[toadd,idx+1] - dmatrix[idx,idx+1]
-                if  t < valnearest:
-                    valnearest = t
-                    nearest = idx
-            #check distance 0 and last element        
-            if dmatrix[toadd,len(partial)-1] + dmatrix[toadd,0] - dmatrix[0,len(partial)-1] < valnearest:
-                    nearest = len(partial)
+            minimo=valnearest
+            #dove inserire il nodo k dopo aver trovato la soluzione
+            for i in range(0, len(partial)): #controllo le coppie di archi all'interno di C
+                if i+1< len(partial):
+                    val=dmatrix[partial[i],k] + dmatrix[k,partial[i+1]] - dmatrix[partial[i], partial[i+1]]
+                    j=i+1
+                    print(val, toadd+1, partial[i], partial[i+1])
+                else:
+                    val=dmatrix[partial[i],k] + dmatrix[k,partial[0]] - dmatrix[partial[i], partial[0]]
+                    j=0
+                    print(val, toadd+1, partial[i], partial[0])
+                if val<minimo: 
+                    minimo=val
+                    pos=j
+
+
         #now i know what node i have to add and where
-        partial.insert(nearest, toadd)
+        partial.insert(pos, toadd)
+        if nearest+1 < len(partial):
+            print('inserito: ', toadd+1 , 'in: ', pos ,'between', partial[pos-1]+1, partial[pos+1]+1 )
+            print(list(map(lambda x:x+1,partial)))
 
         #TODO debug
-        # G = nx.Graph()
-        # plt.figure(3, figsize=(10,10))
-        # if len(partial) > 1:
-        #     for i, x, y in ut.parseFileCoords(filename):
-        #         G.add_node(i, pos=(x,y))
-        #     for i in range(len(partial)-1):
-        #         G.add_edge(partial[i]+1, partial[i+1]+1)
-        #     G.add_edge(partial[0]+1, partial[-1]+1)
-        # pos=nx.get_node_attributes(G,'pos')
-        # nx.draw(G, pos, node_size=15, with_labels=True)
-        # plt.show()
+        G = nx.Graph()
+        plt.figure(3, figsize=(10,10))
+        if len(partial) > 1:
+            for i, x, y in ut.parseFileCoords(filename):
+                G.add_node(i, pos=(x,y))
+            for i in range(len(partial)-1):
+                G.add_edge(partial[i]+1, partial[i+1]+1, weigth = dmatrix[partial[i], partial[i+1]])
+            G.add_edge(partial[0]+1, partial[-1]+1)
+        pos=nx.get_node_attributes(G,'pos')
+        nx.draw(G, pos, node_size=15, with_labels=True)
+        labels = nx.get_edge_attributes(G,'weight')
+        nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
+        plt.show()
+        if nearest+1 < len(partial):
+            print('inserito: ', toadd+1 , 'between', partial[nearest-1]+1, partial[nearest+1]+1 )
+
     #print(partial)      
 
     #compute total path length
@@ -81,4 +97,5 @@ def closestInsertion(dmatrix):
 
     return list(map(lambda x:x+1,partial)), distanceFinal
 
+print(a)
 print('closest insertion: ', closestInsertion(a) )
