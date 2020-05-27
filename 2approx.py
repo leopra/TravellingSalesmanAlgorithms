@@ -61,14 +61,24 @@ def approx(file_name, root):
 #print(totale)
 
 ########### test su tutti i grafi ################
-string=""
-f = open('2approx.txt','w')
-files=['burma14.tsp', 'ulysses16.tsp', 'ulysses22.tsp', 'eil51.tsp', 'berlin52.tsp','kroD100.tsp', 'kroA100.tsp', 'ch150.tsp',
-'gr202.tsp', 'gr229.tsp', 'pcb442.tsp', 'd493.tsp', 'dsj1000.tsp']
-for i in range(0, len(files)):
-    start_time = time.time()
-    ciclo, totale= approx(files[i], 0)
-    string+= files[i] + '  ' + str(totale) + '  ' + str(time.time() - start_time) + '\n'
-    print("time : %s seconds " % (time.time() - start_time))
-f.write(string)
-f.close()
+#string=""
+#f = open('2approx.txt','w')
+#files=['burma14.tsp', 'ulysses16.tsp', 'ulysses22.tsp', 'eil51.tsp', 'berlin52.tsp','kroD100.tsp', 'kroA100.tsp', 'ch150.tsp',
+#'gr202.tsp', 'gr229.tsp', 'pcb442.tsp', 'd493.tsp', 'dsj1000.tsp']
+#for i in range(0, len(files)):
+#    start_time = time.time()
+#    ciclo, totale= approx(files[i], 0)
+#    string+= files[i] + '  ' + str(totale) + '  ' + str(time.time() - start_time) + '\n'
+#    print("time : %s seconds " % (time.time() - start_time))
+#f.write(string)
+#f.close()
+
+########## test per ogni nodo del grafo #########
+#string=""
+#f = open('dsj1000.txt','w')
+#for i in range(0, 1000):
+#    ciclo, totale= approx('dsj1000.tsp', i)
+#    string+= str(i+1) + '   ' + str(totale) + '\n'
+#    print(i+1)
+#f.write(string)
+#f.close()
