@@ -153,8 +153,6 @@ def print_mst(mst, n):
 
 def Prim(file_name, radice): 
     print(file_name)
-    start_time = time.time()  #start count of time execution 
-
     matrix=ut.parseFile(file_name)
     #print(matrix)
     n=len(matrix)
@@ -184,8 +182,6 @@ def Prim(file_name, radice):
                hp.heap_decrease(i, matrix[u.name,i]) #function to change the weight of node v in the heap
     
     #print_mst(mst,n) 
-    print('total weight mst: ', totale)
-    print("time : %s seconds " % (time.time() - start_time)) #calculate the total execution time
     return mst, matrix
 
 
