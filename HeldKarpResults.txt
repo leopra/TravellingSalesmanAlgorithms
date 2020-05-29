@@ -1,0 +1,13 @@
+burma14.tsp  3323  1.036865234375
+ulysses16.tsp  6859  5.7680442333221436
+ulysses22.tsp  7013  680.9099526405334
+eil51.tsp  timeout
+berlin52.tsp  timeout 
+kroD100.tsp  timeout
+kroA100.tsp  timeout
+ch150.tsp  timeout
+gr202.tsp  timeout  
+gr229.tsp  timeout  
+pcb442.tsp  timeout
+d493.tsp  timeout 
+dsj1000.tsp  timeout

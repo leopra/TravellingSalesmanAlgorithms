@@ -6,10 +6,10 @@ import time
 
 
 
-# filename = sorted(os.listdir('tsp_dataset'))
-# if (len(sys.argv)==2):
-#     a = ut.parseFile(filename[int(sys.argv[1])])
-#     #print(a)
+filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
+if (len(sys.argv)==2):
+    a = ut.parseFile(filename)
+    #print(a)
 
 ##########
 #HELD&KARP
@@ -139,6 +139,7 @@ def calcHeldKarpRecursiveVersion(dmatrix):
     risultato = HK_Visit(0, 2**dim-1) #(1,V)
     #indexes were used 1 off so 1 add one to all so they represent the real nodes name
     #print('il path: ', list(reversed(list(map(lambda x: x+1, build_path())))))
+    print(list(reversed(list(map(lambda x: x+1, build_path())))), risultato)
     return list(reversed(list(map(lambda x: x+1, build_path())))), risultato
 
 
@@ -153,13 +154,13 @@ def encToList(binary):
         num += 1
     return sett
 
-#print(a)
-# s = time.time()
-# pathlen = calcHeldKarp(a)
-# print('Iterative: ', pathlen)
-# e = time.time()
-# print(e-s)
-# s = time.time()
-# print('Recursive: ', calcHeldKarpRecursiveVersion(a)) 
-# e = time.time()
-# print(e-s)
+import multiprocessing
+
+print('heldkarp: ', )
+s = time.time()
+k= calcHeldKarpRecursiveVersion(a)
+e = time.time()
+
+with open('HeldKarpResults.txt', 'a') as f:
+    s = filename + '  ' +  str(e-s) + '  ' + str(k[1]) + '\n'
+    f.write(s)
