@@ -169,11 +169,13 @@ def Prim(file_name, radice):
     
     hp= Heap()
     hp.buildHeap(n, radice) #create heap structure
+    Extract=[]
 
     totale = 0 #variable to count the weight of mst
     while hp.getSize()>0: 
         u= hp.extract_min() #extract min from heap
         totale += u.val
+        Extract.append(u.name)
         hp.setExist(u.name) #set that the node is extracted
         for i in range(0, n):
             if(hp.getExist(i) and i!=u.name and matrix[u.name,i] < mst[i].val):
@@ -181,8 +183,10 @@ def Prim(file_name, radice):
                mst[i].pi= u.name #the attribute label is like π
                hp.heap_decrease(i, matrix[u.name,i]) #function to change the weight of node v in the heap
     
+    print(totale)
     #print_mst(mst,n) 
-    return mst, matrix
+    #print(Extract)
+    return mst, matrix, Extract
 
 
 

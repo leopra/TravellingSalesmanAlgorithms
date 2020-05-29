@@ -5,8 +5,8 @@ import time
 
 def printChild(mst):
     string= ""
-    for i in range(0, 16):
-        string+= str(mst[i].name) + ': '
+    for i in range(0, 14):
+        string+= str(mst[i].name) + ': ' + str(mst[i].pi)
         for j in range(0, len(mst[i].child)):
             string+= str(mst[i].child[j]) + ' '
         string+= '\n'
@@ -27,16 +27,17 @@ def printH(H):
 
 def approx(file_name, root):
 
-    mst, matrix= pr.Prim(file_name, root) 
+    mst, matrix, extract= pr.Prim(file_name, root) 
     n= len(mst)
 
     #pr.print_mst(mst,n) #print mst finale
 
     #aggiungi lista figli
-    for i in range(0, n):
-        if mst[i].pi!=None:
-            r=int(mst[i].pi)
-            mst[r].child.append(i)
+    for i in range(0, len(extract)):
+        j=extract[i]
+        if mst[j].pi!=None:
+            r=int(mst[j].pi)
+            mst[r].child.append(j)
 
     #printChild(mst)  #print figli di ogni nodo, per visita preorder
 
@@ -55,7 +56,7 @@ def approx(file_name, root):
 ###########################################################
 
 #algoritmo 2 approssimazione, restituisce il ciclo
-#ciclo, totale= approx('ulysses16.tsp', 0)
+#ciclo, totale= approx('burma14.tsp', 0)
 #print('Cycle')
 #printH(ciclo)
 #print(totale)
@@ -74,11 +75,11 @@ def approx(file_name, root):
 #f.close()
 
 ########## test per ogni nodo del grafo #########
-#string=""
-#f = open('dsj1000.txt','w')
-#for i in range(0, 1000):
-#    ciclo, totale= approx('dsj1000.tsp', i)
-#    string+= str(i+1) + '   ' + str(totale) + '\n'
-#    print(i+1)
-#f.write(string)
-#f.close()
+string=""
+f = open('test2approx/dsj1000.txt','w')
+for i in range(0, 1000):
+    ciclo, totale= approx('dsj1000.tsp', i)
+    string+= str(i+1) + '   ' + str(totale) + '\n'
+    print(i+1)
+f.write(string)
+f.close()

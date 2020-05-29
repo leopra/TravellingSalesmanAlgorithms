@@ -7,16 +7,21 @@ MAX= 9223372036854775807
 
 minimo=MAX
 media=0
-
-with open('dsj1000.txt') as f:
-    lines = f.readlines()
-    for line in lines:
-        value= line.split()
-        if minimo>float(value[1]):
-            minimo=float(value[1])
-        media+= float(value[1])
-
-media= media/1000
-print('Media:', media)
-print('Minimo:', minimo)
+string=""
+c = open('medie-min.txt','w')
+for i in range(0, len(files)):
+    minimo=MAX
+    media=0
+    with open(files[i]) as f:
+        lines = f.readlines()
+        for line in lines:
+            value= line.split()
+            if minimo>float(value[1]):
+                minimo=float(value[1])
+            media+= float(value[1])
+    media= media/len(lines)
+    print(files[i])
+    string+= files[i] + ' ' + str(minimo) + ' ' + str(media) + '\n'
+c.write(string)
+c.close()
 
