@@ -76,10 +76,11 @@ def approx(file_name, root):
 
 ########## test per ogni nodo del grafo #########
 string=""
-f = open('test2approx/dsj1000.txt','w')
-for i in range(0, 1000):
-    ciclo, totale= approx('dsj1000.tsp', i)
-    string+= str(i+1) + '   ' + str(totale) + '\n'
-    print(i+1)
+f = open('result1.txt','w')
+ciclo, totale= approx('ulysses16.tsp', 5)
+string+= 'ulysses16.tsp' + '  '
+for i in range(0, 16):
+    string+= str(ciclo[i]+1) + ','
+print(totale)
 f.write(string)
 f.close()

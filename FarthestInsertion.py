@@ -114,7 +114,15 @@ def farthest(file_name):
     return C, totale
 
 
-farthest('burma14.tsp')
+string=""
+f = open('result1.txt','w')
+C, totale= farthest('ulysses22.tsp')
+string+= 'ulysses22.tsp' + '  ' 
+for i in range(0, len(C)):
+    string+= str(C[i]+1) + ','
+print(string)
+f.write(string)
+f.close()
     
         
 
