@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
+print(filename)
 if (len(sys.argv)==2):
     a = ut.parseFile(filename)
     #print(a)
