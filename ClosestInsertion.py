@@ -98,11 +98,11 @@ def closestInsertion(dmatrix):
 
     return list(map(lambda x:x+1,partial)), distanceFinal
 
-print('closest insertion: ', )
-s = time.time()
-string = closestInsertion(a) 
-e = time.time()
+# print('closest insertion: ', )
+# s = time.time()
+# string = closestInsertion(a) 
+# e = time.time()
 
-with open('ClosestInsertionResults.txt', 'a') as f:
-    s = filename + '  ' +  str(e-s) + '  ' + str(int(string[1])) + '\n'
-    f.write(s)
+# with open('ClosestInsertionResults.txt', 'a') as f:
+#     s = filename + '  ' +  str(e-s) + '  ' + str(int(string[1])) + '\n'
+#     f.write(s)

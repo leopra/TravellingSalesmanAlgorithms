@@ -3,8 +3,9 @@ import os
 import sys
 import itertools as itol
 import time
+from datetime import datetime
 
-
+timeout = False 
 
 filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
 if (len(sys.argv)==2):
@@ -86,6 +87,9 @@ sys.setrecursionlimit(1000)
 #recursive version of the Held Karp algorithm
 #receives a matrix of distances and returns the min circular path traversing al nodes once
 def calcHeldKarpRecursiveVersion(dmatrix):
+    timeinit = time.time()
+    global timeout 
+    timeout = False
     dim = len(dmatrix)
     dist = {}
     py = {}   
@@ -110,7 +114,11 @@ def calcHeldKarpRecursiveVersion(dmatrix):
 
             for u in listanodi:
                 distance = HK_Visit(u, prevsub)
-
+                if time.time() > timeinit + 300:
+                    print('timeout')
+                    global timeout
+                    timeout = True
+                    break
                 if distance + dmatrix[u,v] < mindist:
                     mindist = distance + dmatrix[u,v]
                     #print(v, encToList(S))
@@ -125,14 +133,17 @@ def calcHeldKarpRecursiveVersion(dmatrix):
         percorso = []
         k=0
         S=2**dim-1
-        while len(percorso) < len(dmatrix)-1:
-            temp = py[(k,S)]
-            percorso.append(temp)
-            S = S & ~ (1 << k)
-            k = temp
-        
-        percorso.append(0)
-        
+        #cerco se c'è un percorso completo in py
+        if timeout == True:
+            if (k,S) not in py.keys():
+                return [-1]
+        else:
+            while len(percorso) < len(dmatrix)-1:
+                temp = py[(k,S)]
+                percorso.append(temp)
+                S = S & ~ (1 << k)
+                k = temp
+                percorso.append(0)
         return percorso
 
 
@@ -154,13 +165,11 @@ def encToList(binary):
         num += 1
     return sett
 
-import multiprocessing
+# print('heldkarp: ', )
+# s = time.time()
+# k= calcHeldKarpRecursiveVersion(a)
+# e = time.time()
 
-print('heldkarp: ', )
-s = time.time()
-k= calcHeldKarpRecursiveVersion(a)
-e = time.time()
-
-with open('HeldKarpResults.txt', 'a') as f:
-    s = filename + '  ' +  str(e-s) + '  ' + str(k[1]) + '\n'
-    f.write(s)
+# with open('HeldKarpResults.txt', 'a') as f:
+#     s = filename + '  ' +  str(e-s) + '  ' + str(k[1]) + '\n'
+#     f.write(s)
