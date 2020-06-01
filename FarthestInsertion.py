@@ -90,20 +90,6 @@ def farthest(file_name):
         V.remove(k)
         C.insert(pos, k)
 
-
-        #TODO debug
-        #G = nx.Graph()
-        #plt.figure(3, figsize=(10,10))
-        #if len(C) > 1:
-        #    for i, x, y in ut.parseFileCoords(file_name):
-        #        G.add_node(i, pos=(x,y))
-        #    for i in range(len(C)-1):
-        #        G.add_edge(C[i]+1, C[i+1]+1)
-        #    G.add_edge(C[0]+1, C[-1]+1)
-        #pos=nx.get_node_attributes(G,'pos')
-        #nx.draw(G, pos, node_size=15, with_labels=True)
-        #plt.show()
-
         k=selezione(V,C,matrix)
 
     
@@ -112,17 +98,3 @@ def farthest(file_name):
     print(totale)
 
     return C, totale
-
-
-string=""
-f = open('result1.txt','w')
-C, totale= farthest('ulysses22.tsp')
-string+= 'ulysses22.tsp' + '  ' 
-for i in range(0, len(C)):
-    string+= str(C[i]+1) + ','
-print(string)
-f.write(string)
-f.close()
-    
-        
-

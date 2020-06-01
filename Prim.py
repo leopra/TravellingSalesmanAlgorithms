@@ -154,7 +154,6 @@ def print_mst(mst, n):
 def Prim(file_name, radice): 
     print(file_name)
     matrix=ut.parseFile(file_name)
-    #print(matrix)
     n=len(matrix)
    
     #initialization for Prim algorithm 
@@ -183,9 +182,6 @@ def Prim(file_name, radice):
                mst[i].pi= u.name #the attribute label is like π
                hp.heap_decrease(i, matrix[u.name,i]) #function to change the weight of node v in the heap
     
-    print(totale)
-    #print_mst(mst,n) 
-    #print(Extract)
     return mst, matrix, Extract
 
 
