@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 
 timeout = False 
+partialsol = (0,0)
 
 filename = sorted(os.listdir('tsp_dataset'))[int(sys.argv[1])]
 if (len(sys.argv)==2):
@@ -89,11 +90,11 @@ sys.setrecursionlimit(1000)
 def calcHeldKarpRecursiveVersion(dmatrix):
     timeinit = time.time()
     global timeout 
-    timeout = False
+    global partialsol
     dim = len(dmatrix)
     dist = {}
     py = {}   
-    
+
     #recursive function to be called
     def HK_Visit(v, S):
         #print(v,encToList(S)) #Debug
@@ -114,7 +115,7 @@ def calcHeldKarpRecursiveVersion(dmatrix):
 
             for u in listanodi:
                 distance = HK_Visit(u, prevsub)
-                if time.time() > timeinit + 300:
+                if time.time() > timeinit + 20:
                     print('timeout')
                     global timeout
                     timeout = True
@@ -125,7 +126,10 @@ def calcHeldKarpRecursiveVersion(dmatrix):
                     minprec = u
             
             dist[v,S] = mindist
-            py[v,S] = minprec
+            if minprec != -1:
+                py[v,S] = minprec
+                partialsol = v,S
+            print('PYY:: ', py)
 
             return mindist
 
@@ -135,15 +139,16 @@ def calcHeldKarpRecursiveVersion(dmatrix):
         S=2**dim-1
         #cerco se c'è un percorso completo in py
         if timeout == True:
-            if (k,S) not in py.keys():
-                return [-1]
-        else:
-            while len(percorso) < len(dmatrix)-1:
-                temp = py[(k,S)]
-                percorso.append(temp)
-                S = S & ~ (1 << k)
-                k = temp
-                percorso.append(0)
+            k = partialsol[0]
+            S = partialsol[1]
+
+        print(k,S)
+        while len(percorso) < len(dmatrix)-1:
+            temp = py[(k,S)]
+            percorso.append(temp)
+            S = S & ~ (1 << k)
+            k = temp
+        percorso.append(0)
         return percorso
 
 
@@ -165,10 +170,10 @@ def encToList(binary):
         num += 1
     return sett
 
-# print('heldkarp: ', )
-# s = time.time()
-# k= calcHeldKarpRecursiveVersion(a)
-# e = time.time()
+print('heldkarp: ', )
+s = time.time()
+k= calcHeldKarpRecursiveVersion(a)
+e = time.time()
 
 # with open('HeldKarpResults.txt', 'a') as f:
 #     s = filename + '  ' +  str(e-s) + '  ' + str(k[1]) + '\n'
