@@ -1,4 +1,4 @@
-### homeworkAlgoritmi2
+### TravellingSalesmanProblem
 ### svolto da Leonardo Pratesi e Francesca Meneghello
 
 TRAVELLING SALESMAN PROBLEM:
